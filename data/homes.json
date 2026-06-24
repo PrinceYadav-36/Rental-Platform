@@ -1,3 +1,1 @@
-[{"id":"1","houseName":"Home","price":"1000","location":"Renukoot","rating":"5","photoUrl":"/images/house1.png"},
-{"id":"2","houseName":"antilla","price":"1000","location":"hyd","rating":"4","photoUrl":"/images/house2.png"},
-{"houseName":"Winter","price":"999","location":"jaipur","rating":"3","photoUrl":"/images/house3.png","id":"0.9071900260642647"}]
+[{"houseName":"Home","price":"999","location":"renukoot","rating":"2","photoUrl":"/images/house4.png","id":"0.11787641147559302"},{"houseName":"Winter","price":"1000","location":"jaipur","rating":"2","photoUrl":"/images/house1.png","id":"0.015916484349080218"}]

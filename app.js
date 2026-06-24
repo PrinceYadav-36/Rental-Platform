@@ -20,7 +20,7 @@ app.use(express.static(path.join(rootDir,"public")));
 const errorController=require("./controllers/errors");
 app.use(errorController.get404);
 
-const Port=3000;
+const Port=3001;
 app.listen(Port,()=>{
   console.log(`Server Running on address http://localhost:${Port}`);
 });

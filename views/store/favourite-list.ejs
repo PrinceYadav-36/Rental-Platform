@@ -7,9 +7,9 @@
         Here are your Favourites:
       </h2>
       <div class="flex flex-wrap justify-center gap-6">
-        <% registeredHomes.forEach(home => { %>
+        <% favouriteHomes.forEach(home => { %>
           <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition duration-300 w-full max-w-sm">
-            <img src="https://imgs.search.brave.com/NL2sk94W48X5B-9SwVEmlK85VIvPaSiPMI8HbEJsXho/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/dGhlaG91c2VkZXNp/Z25lcnMuY29tL2lt/YWdlcy9wbGFucy8w/MS9ST0QvYnVsay8x/MDQ1NS9jbC0yMy0w/MzAtMS1kYXlfbS53/ZWJw" alt="<%= home.houseName %>" class="w-full h-48 object-cover">
+            <img src="<%= home.photoUrl %>" alt="<%= home.houseName %>" class="w-full h-48 object-cover">
             <div class="p-4">
               <h3 class="text-xl font-semibold text-gray-800 mb-2"><%= home.houseName %></h3>
               <p class="text-gray-600 mb-2"><i class="fas fa-map-marker-alt mr-2"></i><%= home.location %></p>
@@ -22,7 +22,9 @@
                   <span class="text-gray-700"><%= home.rating %></span>
                 </div>
               </div>
-              <button class="bg-green-300 p-4">Book</button>
+              <form action="/favourites/delete/<%= home.id %>" method="POST">
+                <button class="bg-red-300 p-4" type="submit">Remove</button>
+              </form>
             </div>
           </div>
         <% }) %>
