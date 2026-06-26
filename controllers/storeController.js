@@ -2,14 +2,16 @@ const Home =require("../models/home");
 const Favourite=require("../models/favourite");
 
 exports.getHomes=(req,res,next)=>{
-  Home.fetchAll((registeredHomes )=> res.render('store/home-list',{
+   Home.fetchAll().then(([registeredHomes,fields])=>{
+     res.render('store/home-list',{
     registeredHomes:registeredHomes,pageTitle:'Home List',
-    currPage:'Home'}) )
+    currPage:'Home'}) })
 }
 
 exports.getHomeDetails=(req,res,next)=>{
   const homeId=req.params.homeId;
-  Home.findById(homeId,home=>{
+  Home.findById(homeId).then(([homes])=>{
+    const home=homes[0];
     if(!home)
     {
       console.log("Home Not Found");
@@ -27,9 +29,12 @@ exports.getHomeDetails=(req,res,next)=>{
 }
 
 exports.getIndex=(req,res,next)=>{
-  Home.fetchAll((registeredHomes )=> res.render('store/index',{
-    registeredHomes:registeredHomes,pageTitle:'airbnb Home',
-    currPage:'index'}) )
+  Home.fetchAll().then(([registeredHomes,fields])=>{
+      res.render('store/index',{
+    registeredHomes:registeredHomes,
+    pageTitle:'airbnb Home',
+    currPage:'index'})
+  })
 }
 
 exports.getBookings=(req,res,next)=>{
@@ -61,7 +66,7 @@ exports.postRemoveFromFavourite=(req,res,next)=>{
 }
 exports.getFavouriteList=(req,res,next)=>{
   Favourite.getFavourites(favourites=>{
-    Home.fetchAll((registeredHomes )=> {
+    Home.fetchAll().then(([registeredHomes,fields])=>{
     const favouriteHomes=registeredHomes.filter(home=>favourites.includes(home.id));
     res.render('store/favourite-list',{
       favouriteHomes:favouriteHomes,

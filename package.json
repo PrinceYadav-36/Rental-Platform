@@ -2,13 +2,14 @@
   "name": "project-airbnb",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-  "test": "echo \"Error: no test specified\" && exit 1",
-  "tailwind": "tailwindcss -i ./views/input.css -o ./public/output.css --watch",
-  "build-css": "tailwindcss -i ./views/input.css -o ./public/output.css",
-  "start": "node app.js"
-},
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "tailwind": "tailwindcss -i ./views/input.css -o ./public/output.css --watch",
+    "build-css": "tailwindcss -i ./views/input.css -o ./public/output.css",
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -22,6 +23,7 @@
   "dependencies": {
     "body-parser": "^2.2.2",
     "ejs": "^6.0.1",
-    "express": "^5.2.1"
+    "express": "^5.2.1",
+    "mysql2": "^3.22.5"
   }
 }

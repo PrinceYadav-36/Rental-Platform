@@ -5,6 +5,9 @@ const express=require('express');
 const storeRouter=require("./router/storeRouter");
 const hostRouter=require("./router/hostRouter");
 const rootDir=require("./utils/pathUtil");
+const errorController=require("./controllers/errors");
+const db=require("./utils/databaseutil");
+
 
 const app=express();
 
@@ -17,7 +20,6 @@ app.use("/host",hostRouter);
 
 app.use(express.static(path.join(rootDir,"public")));
 
-const errorController=require("./controllers/errors");
 app.use(errorController.get404);
 
 const Port=process.env.PORT || 3000;
