@@ -32,7 +32,7 @@ exports.getIndex=(req,res,next)=>{
   Home.fetchAll().then(([registeredHomes,fields])=>{
       res.render('store/index',{
     registeredHomes:registeredHomes,
-    pageTitle:'airbnb Home',
+    pageTitle:'StayEase Home',
     currPage:'index'})
   })
 }
