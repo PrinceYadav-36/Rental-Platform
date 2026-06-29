@@ -2,7 +2,7 @@ const Home =require("../models/home");
 const Favourite=require("../models/favourite");
 
 exports.getHomes=(req,res,next)=>{
-   Home.fetchAll().then(([registeredHomes,fields])=>{
+   Home.fetchAll().then(registeredHomes=>{
      res.render('store/home-list',{
     registeredHomes:registeredHomes,pageTitle:'Home List',
     currPage:'Home'}) })
@@ -10,8 +10,7 @@ exports.getHomes=(req,res,next)=>{
 
 exports.getHomeDetails=(req,res,next)=>{
   const homeId=req.params.homeId;
-  Home.findById(homeId).then(([homes])=>{
-    const home=homes[0];
+  Home.findById(homeId).then(home=>{
     if(!home)
     {
       console.log("Home Not Found");
@@ -29,7 +28,7 @@ exports.getHomeDetails=(req,res,next)=>{
 }
 
 exports.getIndex=(req,res,next)=>{
-  Home.fetchAll().then(([registeredHomes,fields])=>{
+  Home.fetchAll().then(registeredHomes=>{
       res.render('store/index',{
     registeredHomes:registeredHomes,
     pageTitle:'StayEase Home',
@@ -44,30 +43,36 @@ exports.getBookings=(req,res,next)=>{
 }
 
 exports.postAddToFavourite=(req,res,next)=>{
-  console.log("Came to favourites",req.body);
-  Favourite.addToFavourite(req.body.id,error=>{
-    if(error)
-    {
-      console.log("Error while marking Favourite:",error);
-    }
+  const homeId=req.body.id;
+  const fav=new Favourite(homeId);
+  fav.save().then(result=>{
+    console.log("Fav added: ",result);
+  }).catch(err=>{
+    console.log("Error while marking favourites: ",err);
+  }).finally(()=>{
     res.redirect("/favourites");
   })
 }
 
 exports.postRemoveFromFavourite=(req,res,next)=>{
   const homeId=req.params.homeId;
-  Favourite.deleteById(homeId,error=>{
-    if(error)
-    {
-      console.log("Error while removing from Favorite",error);
-    }
+  Favourite.deleteById(homeId).then(result=>{
+    console.log("Fav Removed: ",result);
+  }).catch(err=>{
+    console.log("Error while removing favourites: ",err);
+  }).finally(()=>{
     res.redirect("/favourites");
-  })
+  });
 }
+
 exports.getFavouriteList=(req,res,next)=>{
-  Favourite.getFavourites(favourites=>{
-    Home.fetchAll().then(([registeredHomes,fields])=>{
-    const favouriteHomes=registeredHomes.filter(home=>favourites.includes(home.id));
+  Favourite.getFavourites().then(favourites=>{
+    favourites=favourites.map(fav=>fav.houseId);
+    Home.fetchAll().then(registeredHomes=>{
+      console.log(favourites,registeredHomes);
+    const favouriteHomes=registeredHomes.
+    filter(home=>
+      favourites.includes(home._id.toString()));
     res.render('store/favourite-list',{
       favouriteHomes:favouriteHomes,
       pageTitle:'My Favourites',

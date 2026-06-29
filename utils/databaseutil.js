@@ -1,15 +1,16 @@
-const mongo=require('mongodb');
+require('dotenv').config();
 
+const mongo=require('mongodb');
 const MongoClient=mongo.MongoClient;
 
-const Mongo_URL="mongodb+srv://princekohli3621_db_user:Prince%403600@princemongo.wpt315m.mongodb.net/?appName=PrinceMongo";
+const Mongo_URL = process.env.MONGO_URL;
 
 let _db;
 const mongoConnect=(callback)=>{
   MongoClient.connect(Mongo_URL).then(client=>{
-  console.log(client);
-  callback();
+ // console.log(client);
   _db=client.db('stayease');
+  callback();
 }).catch(err=>{
   console.log('Error while connecting to Mongo: ',err);
 });
