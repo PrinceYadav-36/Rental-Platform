@@ -1,54 +1,37 @@
-const {getDB}=require("../utils/databaseutil");
-const {ObjectId}=require('mongodb');
+const mongoose=require('mongoose');
+const favourite = require('./favourite');
 
-module.exports= class Home{
-    constructor(houseName,price,location,rating,photoUrl,description,_id)
-    {
-      this.houseName=houseName;
-      this.price=price;
-      this.location=location;
-      this.rating=rating;
-      this.photoUrl=photoUrl;
-      this.description=description;
-      if(_id){
-         this._id=_id;
-      }
-    }
+const homeSchema=new mongoose.Schema({
+  houseName:{
+    type: String,
+    required:true
+  },
+  price:{
+    type: Number,
+    required:true
+  },
+  location:{
+    type: String,
+    required:true
+  },
+  rating:{
+    type: Number,
+    required:true
+  },
+  photoUrl:String,
+  description:String,
+})
 
-    save(){
-     const db= getDB();
-     if(this._id)
-     {
-      const updateFields ={
-        houseName:this.houseName,
-        price:this.price,
-        location:this.location,
-        rating:this.rating,
-        photoUrl:this.photoUrl,
-        description:this.description
-      }
-        return db.collection('homes').updateOne({_id: new ObjectId(String(this._id))},{$set:updateFields});
-     }
-     else{
-      return db.collection('homes').insertOne(this);
-     }
-    }
+homeSchema.pre('findOneAndDelete',async function(){
+  const homeId=this.getQuery()._id;
+  await favourite.deleteMany({houseId:homeId});
+})
 
-    static fetchAll(){
-      const db=getDB();
-      return db.collection('homes').find().toArray();
-    }
+module.exports=mongoose.model('Home',homeSchema);
 
-    static findById(homeId){
-      const db=getDB();
-      return db.collection('homes')
-      .find({_id:new ObjectId(String(homeId))})
-      .next();
-    }
 
-    static deleteById(homeId){
-      const db=getDB();
-      return db.collection('homes')
-      .deleteOne({_id:new ObjectId(String(homeId))});
-    }
-}
+    // save(){
+    // static find(){
+    // static findById(homeId){
+   // static deleteById(homeId){
+     

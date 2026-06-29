@@ -13,8 +13,7 @@ const storeRouter=require("./router/storeRouter");
 const hostRouter=require("./router/hostRouter");
 const rootDir=require("./utils/pathUtil");
 const errorController=require("./controllers/errors");
-const {mongoConnect}=require("./utils/databaseutil");
-
+const {default: mongoose } = require('mongoose');
 
 const app=express();
 
@@ -29,8 +28,13 @@ app.use("/host",hostRouter);
 app.use(errorController.get404);
 
 const Port=process.env.PORT || 3000;
-mongoConnect(()=>{
+const db_path="mongodb+srv://princekohli3621_db_user:Prince%403600@princemongo.wpt315m.mongodb.net/stayease?appName=PrinceMongo";
+
+mongoose.connect(db_path).then(()=>{
+  console.log("Connected to Mongo");
   app.listen(Port,()=>{
   console.log(`Server Running on address http://localhost:${Port}`);
 });
+}).catch(err=>{
+  console.log("Error while connecting to Mongo",err);
 })
